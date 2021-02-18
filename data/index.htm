@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+   <head lang="en">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <script type="text/javascript" src="/function.js"></script>
+      <title>ESP8266 AP Settings</title>
+      
+      <script>
+	  
+		function save_wifi(submit){
+			server = "/ssid?ssid="+val('ssid')+
+			"&password="+encodeURIComponent(val('password'));
+			
+			send_request(submit,server);
+			alert("Please restart for changes apply.");
+		}
+		
+		function save_mqtt(submit){
+			server = "/mqtt?mqttUser="+val('mqttUser')+
+			"&mqttPassword="+encodeURIComponent(val('mqttPassword'))+
+			"&ControllerIP="+val('ControllerIP')+
+			"&ControllerPort="+val('ControllerPort')+
+			"&ControllerSubscribe="+val('ControllerSubscribe')+
+			"&ControllerPublish="+val('ControllerPublish');
+			
+			send_request(submit,server);
+			alert("Please restart for changes apply.");
+		}
+       
+		function set(){
+			var ssid = document.getElementById("ssid");
+			ssid.setAttribute('value', 'HELLO'); 
+		}
+ 
+      </script>
+      
+      <style>
+         body {
+             margin: 100;
+             padding: 0;
+         }
+         #wrapper { 
+     margin: 0 auto; 
+     width: 450px;
+     }
+         #form-div {
+         background-color: rgba(158,164,214,0.4);
+         padding-left: 10px;
+         padding-right: 10px;
+         padding-bottom: 50px;
+         padding-top: 1px;
+         -moz-border-radius: 2px;
+         -webkit-border-radius: 2px;
+         }
+         .data-input {
+         color:#3c3c3c;
+         background-color: #fbfbfb;
+         padding: 5px 5px 5px 24px;
+         font-size:20px;
+         width:100%;
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         -ms-box-sizing: border-box;
+         box-sizing: border-box;
+         border: 3px solid rgba(0,0,0,0);
+         -moz-border-radius: 7px;
+         -webkit-border-radius: 7px;
+         }
+         .button-blue, .pwd-button {
+         float:left;
+         width: 100%;
+         border: #fbfbfb solid 3px;
+         cursor:pointer;
+         background-color: #1a30ff;
+         color:white;
+         font-size:18px;
+         padding-top:7px;
+         padding-bottom:7px;
+         font-weight:700;
+         -moz-border-radius: 2px;
+         -webkit-border-radius: 2px;
+         }
+         .button-blue:hover, .pwd-button:hover {
+         background-color: #8f99ef;
+         color: white;
+         }
+         .text {
+         padding: 5px 5px 5px 5px;
+         font-size:16px;
+         color: grey;
+         float:left;
+         clear:both;
+     }
+     #form-buttons{
+     background-color: rgba(158,164,214,0.4);
+         padding-left: 10px;
+         padding-right: 10px;
+         padding-bottom: 50px;
+         padding-top: 10px;
+         -moz-border-radius: 2px;
+         -webkit-border-radius: 2px;
+     }
+         
+   </style>
+   </head>
+ <!--BODY -->
+   <body onload="set()">
+   <iframe name="hidden_frame" style="display:none"></iframe>
+   
+   <div id="wrapper">
+   
+   <div id="form-div">
+   <p style="text-align:center"><strong>Wi-Fi Settings</strong></p>
+   <p><input type="text" id="ssid" name="ssid" class="data-input" placeHolder="Wifi Network" maxlength="20" value="" /></p>
+   <p><input type="password" id="password" name="password" class="data-input" maxlength="20" placeHolder="Password"/></p>
+   <input type="submit" value="Save Wi-Fi Settings" class="button-blue" onclick="save_wifi(this);">
+   </div>
+   
+   <p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+   
+   <div id="form-div">
+   <p style="text-align:center"><strong>MQTT Settings</strong></p>
+   <p><input type="text" id="mqttUser" name="mqttUser" class="data-input" maxlength="20" placeHolder="MQTT User"/></p>
+   <p><input type="password" id="mqttPassword" name="mqttPassword" class="data-input" maxlength="20" placeHolder="MQTT Password"/></p>
+   <p><input type="text" id="ControllerIP" name="ControllerIP" class="data-input" maxlength="20" placeHolder="Controller IP"/></p>
+   <p><input type="text" name="ControllerPort" id="ControllerPort" class="data-input" maxlength="6" placeHolder="Controller Port" /></p>
+   <p><input type="text" name="ControllerSubscribe" id="ControllerSubscribe" class="data-input" placeHolder="Controller Subscribe" maxlength="64"/></p>
+   <p><input type="text" name="ControllerPublish" id="ControllerPublish" class="data-input" placeHolder="Controller Publish" maxlength="64"/></p>
+   <input type="submit" value="Save MQTT Settings" class="button-blue" onclick="save_mqtt(this);">
+   </div>
+   
+   <p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+   
+   <div id="form-buttons">
+   
+   <form action="/restart">
+   <input type="submit" value="Restart" class="button-blue">
+   </form>
+   </div>
+   
+   </div>
+   </body>
+   
+   
+   
+</html>
