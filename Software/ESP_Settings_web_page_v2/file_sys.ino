@@ -131,7 +131,40 @@ void handleFileList() {
 }
 
 
-void load_settings(){
+void save_json(const char *filename, const configurations &conf){
+  /*
+  -
+  -  TODO : 
+  -       CODE FOR WORKING WITH SPIFFS
+  -       OPEN/CREATE FILE
+  -
+  */
+
+  StaticJsonDocument<512> doc;
+
+  doc["ssid"] = conf.ssid;
+  doc["password"] = conf.password;
+  doc["mqttUser"] = conf.mqttUser;
+  doc["mqttPassword"] = conf.mqttPassword;
+  doc["mqttContrIP"] = conf.mqttContrIP;
+  doc["mqttContrPort"] = conf.mqttContrPort;
+  doc["mqttContrSub"] = conf.mqttContrSub;
+  doc["mqttContrPub"] = conf.mqttContrPub;
+
+  /*if (serializeJson(doc, file) == 0) {
+    Serial.println(F("Failed to write to file"));
+  }
+
+  file.close();*/
+  
+}
+
+
+
+
+//================ EEPROM FUNCTIONS (TO BE RETIRED) ================//
+
+void load_settings(){ // to be retired
   
     ssid = read_eeprom(0);
     password = read_eeprom(20);
@@ -144,8 +177,7 @@ void load_settings(){
   
   }
 
-
-void save_settings(){
+void save_settings(){ // to be retired
   
   Serial.println(ssid);
   Serial.println(password);
@@ -168,8 +200,7 @@ void save_settings(){
   
   }
   
-
-void write_eeprom(String buff, int addr){
+void write_eeprom(String buff, int addr){ // to be retired
   EEPROM.begin(512);
   delay(10);
   unsigned int len = buff.length();
@@ -182,8 +213,7 @@ void write_eeprom(String buff, int addr){
   EEPROM.commit();
   }
 
-
-String read_eeprom(int addr){
+String read_eeprom(int addr){ // to be retired
   EEPROM.begin(512); 
   delay(10); 
   unsigned int len = EEPROM.read(addr);
@@ -194,3 +224,5 @@ String read_eeprom(int addr){
     }
   return buff;
   }
+
+//================ EEPROM FUNCTIONS (TO BE RETIRED) ================//

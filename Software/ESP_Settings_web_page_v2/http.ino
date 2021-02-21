@@ -34,38 +34,3 @@ void read_mqtt_values(){
   
   HTTP.send(200, "text/plain", "OK");
   }
-
-
-void generate_json(){
-  
-  //format {"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
-  String json = "{"; 
-  
-  json += "\",\"ssid\":\"";
-  json += ssid;
-
-  json += "\",\"password\":\"";
-  json += password;
-
-  json += "\",\"mqttUser\":\"";
-  json += mqttUser;
- 
-  json += "\",\"mqttPassword\":\"";
-  json += mqttPassword;
-
-  json += "\",\"mqttContrIP\":\"";
-  json += mqttContrIP;
-
-  json += "\",\"mqttContrPort\":\"";
-  json += mqttContrPort;
-
-  json += "\",\"mqttContrSub\":\"";
-  json += mqttContrSub;
-
-  json += "\",\"mqttContrPub\":\"";
-  json += mqttContrPub;
-  
-  json += "\"}";
-  HTTP.send(200, "text/json", json);
-  
-  }
