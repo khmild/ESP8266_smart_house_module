@@ -3,8 +3,13 @@
 void wifi_start(){
   Serial.println("******** BEGIN ***********");
 
-  Serial.println(settings.ssid);
-  Serial.println(settings.password);
+  #ifdef DEBUG
+    Serial.println();
+    Serial.println("Connecting to:");
+    Serial.println(settings.ssid);
+    Serial.println(settings.password);
+    Serial.println();
+  #endif
   
   Serial.println("*******WIFI_STA***********");
   WiFi.mode(WIFI_STA);

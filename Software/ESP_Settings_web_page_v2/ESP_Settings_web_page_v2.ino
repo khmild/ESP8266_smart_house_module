@@ -9,8 +9,6 @@ void setup() {
   wifi_start();
   HTTP_init();
 
-  delay(500);
-  printFile();
 }
 
 void loop() {

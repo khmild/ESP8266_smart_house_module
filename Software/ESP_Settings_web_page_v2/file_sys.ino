@@ -4,10 +4,22 @@ void FS_init(void) {
   SPIFFS.begin();
   {
     Dir dir = SPIFFS.openDir("/");
+    
+    #ifdef DEBUG
+      Serial.println();
+      Serial.println("Configuration file containes:");
+      printFile();
+      Serial.println();
+      Serial.println("Files in SPIFFS:");
+    #endif
+    
     while (dir.next()) {
       String fileName = dir.fileName();
-      Serial.println(fileName);
       size_t fileSize = dir.fileSize();
+      
+      #ifdef DEBUG
+        Serial.println(fileName);
+      #endif
     }
   }
   
@@ -72,8 +84,22 @@ void save_json(const configurations &conf){
   doc["mqttContrSub"] = conf.mqttContrSub;
   doc["mqttContrPub"] = conf.mqttContrPub;
 
+  #ifdef DEBUG
+    Serial.println();
+    Serial.println("Saving this data to json:");
+    Serial.println(settings.ssid);
+    Serial.println(settings.password);
+    Serial.println(settings.mqttUser);
+    Serial.println(settings.mqttPassword);
+    Serial.println(settings.mqttContrIP);
+    Serial.println(settings.mqttContrPort);
+    Serial.println(settings.mqttContrSub);
+    Serial.println(settings.mqttContrPub);
+    Serial.println();
+  #endif
+
   if (serializeJson(doc, file) == 0) {
-    Serial.println(F("Failed to write to file"));
+    Serial.println("Failed to write to file");
   }
 
   file.close();
@@ -111,6 +137,9 @@ void load_json(configurations &conf) {
   conf.mqttContrSub = mqttContrSub;
   conf.mqttContrPub = mqttContrPub;
 
+  #ifdef DEBUG
+  Serial.println();
+  Serial.println("Loading this data from json:");
   Serial.println(settings.ssid);
   Serial.println(settings.password);
   Serial.println(settings.mqttUser);
@@ -119,13 +148,14 @@ void load_json(configurations &conf) {
   Serial.println(settings.mqttContrPort);
   Serial.println(settings.mqttContrSub);
   Serial.println(settings.mqttContrPub);
+  Serial.println();
+  #endif
 
   file.close();
 }
 
-
+#ifdef DEBUG
 void printFile() {
-  
   File file = SPIFFS.open("/config.txt", "r");
   if (!file) {
     Serial.println("Failed to read file");
@@ -139,3 +169,4 @@ void printFile() {
 
   file.close();
 }
+#endif
