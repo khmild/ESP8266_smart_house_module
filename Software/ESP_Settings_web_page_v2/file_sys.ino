@@ -166,37 +166,37 @@ void save_json(const char *filename, const configurations &conf){
 
 void load_settings(){ // to be retired
   
-    ssid = read_eeprom(0);
-    password = read_eeprom(20);
-    mqttUser = read_eeprom(40);
-    mqttPassword = read_eeprom(60);
-    mqttContrIP = read_eeprom(80);
-    mqttContrPort = read_eeprom(100);
-    mqttContrSub = read_eeprom(120);
-    mqttContrPub = read_eeprom(180);
+    settings.ssid = read_eeprom(0);
+    settings.password = read_eeprom(20);
+    settings.mqttUser = read_eeprom(40);
+    settings.mqttPassword = read_eeprom(60);
+    settings.mqttContrIP = read_eeprom(80);
+    settings.mqttContrPort = read_eeprom(100);
+    settings.mqttContrSub = read_eeprom(120);
+    settings.mqttContrPub = read_eeprom(180);
   
   }
 
 void save_settings(){ // to be retired
   
-  Serial.println(ssid);
-  Serial.println(password);
-  Serial.println(mqttUser);
-  Serial.println(mqttPassword);
-  Serial.println(mqttContrIP);
-  Serial.println(mqttContrPort);
-  Serial.println(mqttContrSub);
-  Serial.println(mqttContrPub);
+  Serial.println(settings.ssid);
+  Serial.println(settings.password);
+  Serial.println(settings.mqttUser);
+  Serial.println(settings.mqttPassword);
+  Serial.println(settings.mqttContrIP);
+  Serial.println(settings.mqttContrPort);
+  Serial.println(settings.mqttContrSub);
+  Serial.println(settings.mqttContrPub);
 
 
-  write_eeprom(ssid, 0);
-  write_eeprom(password, 20);
-  write_eeprom(mqttUser, 40);
-  write_eeprom(mqttPassword, 60);
-  write_eeprom(mqttContrIP, 80);
-  write_eeprom(mqttContrPort, 100);
-  write_eeprom(mqttContrSub, 120);
-  write_eeprom(mqttContrPub, 180);
+  write_eeprom(settings.ssid, 0);
+  write_eeprom(settings.password, 20);
+  write_eeprom(settings.mqttUser, 40);
+  write_eeprom(settings.mqttPassword, 60);
+  write_eeprom(settings.mqttContrIP, 80);
+  write_eeprom(settings.mqttContrPort, 100);
+  write_eeprom(settings.mqttContrSub, 120);
+  write_eeprom(settings.mqttContrPub, 180);
   
   }
   

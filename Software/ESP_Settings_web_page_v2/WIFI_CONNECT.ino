@@ -3,14 +3,14 @@
 void wifi_start(){
   Serial.println("******** BEGIN ***********");
 
-  Serial.println(ssid);
-  Serial.println(password);
+  Serial.println(settings.ssid);
+  Serial.println(settings.password);
   
   Serial.println("*******WIFI_STA***********");
   WiFi.mode(WIFI_STA);
 
   Serial.println("******CONNECTING**********");
-  WiFi.begin(ssid, password);
+  WiFi.begin(settings.ssid, settings.password);
 
   while (WiFi.status() != WL_CONNECTED) {
     if(counter > 20){
