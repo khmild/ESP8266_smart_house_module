@@ -1,22 +1,16 @@
-// Инициализация FFS
+
+
 void FS_init(void) {
   SPIFFS.begin();
   {
     Dir dir = SPIFFS.openDir("/");
     while (dir.next()) {
       String fileName = dir.fileName();
+      Serial.println(fileName);
       size_t fileSize = dir.fileSize();
     }
   }
-  HTTP.on("/list", HTTP_GET, handleFileList);
-  HTTP.on("/edit", HTTP_GET, []() {
-    if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
-  });
-  HTTP.on("/edit", HTTP_PUT, handleFileCreate);
-  HTTP.on("/edit", HTTP_DELETE, handleFileDelete);
-  HTTP.on("/edit", HTTP_POST, []() {
-    HTTP.send(200, "text/plain", "");
-  }, handleFileUpload);
+  
   HTTP.onNotFound([]() {
     if (!handleFileRead(HTTP.uri()))
       HTTP.send(404, "text/plain", "FileNotFound");
@@ -42,7 +36,6 @@ String getContentType(String filename) {
   return "text/plain";
 }
 
-
 bool handleFileRead(String path) {
   if (path.endsWith("/")) path += "index.htm";
   String contentType = getContentType(path);
@@ -59,86 +52,14 @@ bool handleFileRead(String path) {
 }
 
 
-void handleFileUpload() {
-  if (HTTP.uri() != "/edit") return;
-  HTTPUpload& upload = HTTP.upload();
-  if (upload.status == UPLOAD_FILE_START) {
-    String filename = upload.filename;
-    if (!filename.startsWith("/")) filename = "/" + filename;
-    fsUploadFile = SPIFFS.open(filename, "w");
-    filename = String();
-  } else if (upload.status == UPLOAD_FILE_WRITE) {
-    if (fsUploadFile)
-      fsUploadFile.write(upload.buf, upload.currentSize);
-  } else if (upload.status == UPLOAD_FILE_END) {
-    if (fsUploadFile)
-      fsUploadFile.close();
+void save_json(const configurations &conf){
+
+  SPIFFS.remove("/config.txt");
+  
+  File file = SPIFFS.open("/config.txt", "w");
+  if (!file) {
+    Serial.println("Config file open failed");
   }
-}
-
-void handleFileDelete() {
-  if (HTTP.args() == 0) return HTTP.send(500, "text/plain", "BAD ARGS");
-  String path = HTTP.arg(0);
-  if (path == "/")
-    return HTTP.send(500, "text/plain", "BAD PATH");
-  if (!SPIFFS.exists(path))
-    return HTTP.send(404, "text/plain", "FileNotFound");
-  SPIFFS.remove(path);
-  HTTP.send(200, "text/plain", "");
-  path = String();
-}
-
-void handleFileCreate() {
-  if (HTTP.args() == 0)
-    return HTTP.send(500, "text/plain", "BAD ARGS");
-  String path = HTTP.arg(0);
-  if (path == "/")
-    return HTTP.send(500, "text/plain", "BAD PATH");
-  if (SPIFFS.exists(path))
-    return HTTP.send(500, "text/plain", "FILE EXISTS");
-  File file = SPIFFS.open(path, "w");
-  if (file)
-    file.close();
-  else
-    return HTTP.send(500, "text/plain", "CREATE FAILED");
-  HTTP.send(200, "text/plain", "");
-  path = String();
-
-}
-
-void handleFileList() {
-  if (!HTTP.hasArg("dir")) {
-    HTTP.send(500, "text/plain", "BAD ARGS");
-    return;
-  }
-  String path = HTTP.arg("dir");
-  Dir dir = SPIFFS.openDir(path);
-  path = String();
-  String output = "[";
-  while (dir.next()) {
-    File entry = dir.openFile("r");
-    if (output != "[") output += ',';
-    bool isDir = false;
-    output += "{\"type\":\"";
-    output += (isDir) ? "dir" : "file";
-    output += "\",\"name\":\"";
-    output += String(entry.name()).substring(1);
-    output += "\"}";
-    entry.close();
-  }
-  output += "]";
-  HTTP.send(200, "text/json", output);
-}
-
-
-void save_json(const char *filename, const configurations &conf){
-  /*
-  -
-  -  TODO : 
-  -       CODE FOR WORKING WITH SPIFFS
-  -       OPEN/CREATE FILE
-  -
-  */
 
   StaticJsonDocument<512> doc;
 
@@ -151,15 +72,29 @@ void save_json(const char *filename, const configurations &conf){
   doc["mqttContrSub"] = conf.mqttContrSub;
   doc["mqttContrPub"] = conf.mqttContrPub;
 
-  /*if (serializeJson(doc, file) == 0) {
+  if (serializeJson(doc, file) == 0) {
     Serial.println(F("Failed to write to file"));
   }
 
-  file.close();*/
+  file.close();
   
 }
 
+void printFile() {
+  
+  File file = SPIFFS.open("/config.txt", "r");
+  if (!file) {
+    Serial.println("Failed to read file");
+    return;
+  }
 
+  while (file.available()) {
+    Serial.print((char)file.read());
+  }
+  Serial.println();
+
+  file.close();
+}
 
 
 //================ EEPROM FUNCTIONS (TO BE RETIRED) ================//
@@ -197,6 +132,8 @@ void save_settings(){ // to be retired
   write_eeprom(settings.mqttContrPort, 100);
   write_eeprom(settings.mqttContrSub, 120);
   write_eeprom(settings.mqttContrPub, 180);
+
+  save_json(settings);
   
   }
   

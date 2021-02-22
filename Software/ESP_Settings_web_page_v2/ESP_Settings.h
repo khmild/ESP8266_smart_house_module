@@ -33,8 +33,5 @@ IPAddress apIP(192, 168, 1, 1);
 ESP8266WebServer HTTP(80);
 File fsUploadFile;
 
-//=================== JSON SETTINGS ===================//
-const char *json_config = "/config.txt";
-
 
 #endif
