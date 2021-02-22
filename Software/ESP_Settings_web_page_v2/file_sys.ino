@@ -58,7 +58,7 @@ void save_json(const configurations &conf){
   
   File file = SPIFFS.open("/config.txt", "w");
   if (!file) {
-    Serial.println("Config file open failed");
+    Serial.println("Config file open failed (write)");
   }
 
   StaticJsonDocument<512> doc;
@@ -80,6 +80,50 @@ void save_json(const configurations &conf){
   
 }
 
+void load_json(configurations &conf) {
+  
+  File file = SPIFFS.open("/config.txt", "r");
+  if (!file) {
+    Serial.println("Config file open failed (read)");
+  }
+
+  StaticJsonDocument<512> doc;
+
+  DeserializationError error = deserializeJson(doc, file);
+  if (error)
+    Serial.println("Failed to read file, using default configuration");
+
+  const char *ssid = doc["ssid"];
+  const char *password = doc["password"];
+  const char *mqttUser = doc["mqttUser"];
+  const char *mqttPassword = doc["mqttPassword"];
+  const char *mqttContrIP = doc["mqttContrIP"];
+  const char *mqttContrPort = doc["mqttContrPort"];
+  const char *mqttContrSub = doc["mqttContrSub"];
+  const char *mqttContrPub = doc["mqttContrPub"];
+
+  conf.ssid = ssid;
+  conf.password = password;
+  conf.mqttUser = mqttUser;
+  conf.mqttPassword = mqttPassword;
+  conf.mqttContrIP = mqttContrIP;
+  conf.mqttContrPort = mqttContrPort;
+  conf.mqttContrSub = mqttContrSub;
+  conf.mqttContrPub = mqttContrPub;
+
+  Serial.println(settings.ssid);
+  Serial.println(settings.password);
+  Serial.println(settings.mqttUser);
+  Serial.println(settings.mqttPassword);
+  Serial.println(settings.mqttContrIP);
+  Serial.println(settings.mqttContrPort);
+  Serial.println(settings.mqttContrSub);
+  Serial.println(settings.mqttContrPub);
+
+  file.close();
+}
+
+
 void printFile() {
   
   File file = SPIFFS.open("/config.txt", "r");
@@ -95,71 +139,3 @@ void printFile() {
 
   file.close();
 }
-
-
-//================ EEPROM FUNCTIONS (TO BE RETIRED) ================//
-
-void load_settings(){ // to be retired
-  
-    settings.ssid = read_eeprom(0);
-    settings.password = read_eeprom(20);
-    settings.mqttUser = read_eeprom(40);
-    settings.mqttPassword = read_eeprom(60);
-    settings.mqttContrIP = read_eeprom(80);
-    settings.mqttContrPort = read_eeprom(100);
-    settings.mqttContrSub = read_eeprom(120);
-    settings.mqttContrPub = read_eeprom(180);
-  
-  }
-
-void save_settings(){ // to be retired
-  
-  Serial.println(settings.ssid);
-  Serial.println(settings.password);
-  Serial.println(settings.mqttUser);
-  Serial.println(settings.mqttPassword);
-  Serial.println(settings.mqttContrIP);
-  Serial.println(settings.mqttContrPort);
-  Serial.println(settings.mqttContrSub);
-  Serial.println(settings.mqttContrPub);
-
-
-  write_eeprom(settings.ssid, 0);
-  write_eeprom(settings.password, 20);
-  write_eeprom(settings.mqttUser, 40);
-  write_eeprom(settings.mqttPassword, 60);
-  write_eeprom(settings.mqttContrIP, 80);
-  write_eeprom(settings.mqttContrPort, 100);
-  write_eeprom(settings.mqttContrSub, 120);
-  write_eeprom(settings.mqttContrPub, 180);
-
-  save_json(settings);
-  
-  }
-  
-void write_eeprom(String buff, int addr){ // to be retired
-  EEPROM.begin(512);
-  delay(10);
-  unsigned int len = buff.length();
-  EEPROM.write(addr, len);
-  
-  for (int i = 0; i < len; ++i) 
-    {
-      EEPROM.write(addr + i + 1, buff[i]);
-    }
-  EEPROM.commit();
-  }
-
-String read_eeprom(int addr){ // to be retired
-  EEPROM.begin(512); 
-  delay(10); 
-  unsigned int len = EEPROM.read(addr);
-  String buff = "";
-  for (int i = addr + 1; i < (addr + len + 1); ++i)
-    {
-          buff += char(EEPROM.read(i));
-    }
-  return buff;
-  }
-
-//================ EEPROM FUNCTIONS (TO BE RETIRED) ================//

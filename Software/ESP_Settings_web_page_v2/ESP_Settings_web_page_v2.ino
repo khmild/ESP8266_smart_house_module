@@ -5,7 +5,7 @@ void setup() {
   Serial.begin(9600);
   
   FS_init();
-  load_settings();
+  load_json(settings);
   wifi_start();
   HTTP_init();
 

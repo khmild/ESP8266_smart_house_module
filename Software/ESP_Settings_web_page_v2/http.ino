@@ -16,7 +16,7 @@ void read_wifi_values(){
   settings.ssid = HTTP.arg("ssid");
   settings.password = HTTP.arg("password");
   
-  save_settings();
+  save_json(settings);
   
   HTTP.send(200, "text/plain", "OK");
   }
@@ -30,7 +30,7 @@ void read_mqtt_values(){
   settings.mqttContrSub = HTTP.arg("ControllerSubscribe");
   settings.mqttContrPub = HTTP.arg("ControllerPublish");
 
-  save_settings();
+  save_json(settings);
   
   HTTP.send(200, "text/plain", "OK");
   }
