@@ -13,8 +13,8 @@ void handle_Restart() {
 
 void read_wifi_values(){
   Serial.println("Reading wifi values");
-  ssid = HTTP.arg("ssid");
-  password = HTTP.arg("password");
+  settings.ssid = HTTP.arg("ssid");
+  settings.password = HTTP.arg("password");
   
   save_settings();
   
@@ -23,12 +23,12 @@ void read_wifi_values(){
 
 void read_mqtt_values(){
   Serial.println("Reading mqtt values");
-  mqttUser = HTTP.arg("mqttUser");
-  mqttPassword = HTTP.arg("mqttPassword");
-  mqttContrIP = HTTP.arg("ControllerIP");
-  mqttContrPort = HTTP.arg("ControllerPort");
-  mqttContrSub = HTTP.arg("ControllerSubscribe");
-  mqttContrPub = HTTP.arg("ControllerPublish");
+  settings.mqttUser = HTTP.arg("mqttUser");
+  settings.mqttPassword = HTTP.arg("mqttPassword");
+  settings.mqttContrIP = HTTP.arg("ControllerIP");
+  settings.mqttContrPort = HTTP.arg("ControllerPort");
+  settings.mqttContrSub = HTTP.arg("ControllerSubscribe");
+  settings.mqttContrPub = HTTP.arg("ControllerPublish");
 
   save_settings();
   
