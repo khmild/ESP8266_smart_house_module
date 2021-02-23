@@ -13,17 +13,54 @@ body {
     background-color: rgba(158,164,214,0.4);
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 50px;
+    padding-bottom: 55px;
     padding-top: 1px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+}
+
+#lables {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #191717;
+	padding-top: 8px;
+	padding-bottom: 2px;
+}
+
+#lables_top {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #191717;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+#headers {
+	text-align:center;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 22px;
+	letter-spacing: 1px;
+	word-spacing: 2px;
+	color: #505050;
+	font-weight: 700;
+	text-decoration: none;
+	padding-top: 7px;
+	padding-bottom: 3px;
+}
+
+#form-buttons{
+     background-color: rgba(158,164,214,0.4);
+     padding-left: 10px;
+     padding-right: 10px;
+     padding-bottom: 50px;
+     padding-top: 10px;
+     -moz-border-radius: 10px;
+     -webkit-border-radius: 10px;
 }
 
 .data-input {
     color:#3c3c3c;
     background-color: #fbfbfb;
     padding: 5px 5px 5px 24px;
-    font-size:20px;
+    font-size:18px;
     width:100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -61,14 +98,3 @@ body {
     float:left;
     clear:both;
 }
-	 
-#form-buttons{
-     background-color: rgba(158,164,214,0.4);
-         padding-left: 10px;
-         padding-right: 10px;
-         padding-bottom: 50px;
-         padding-top: 10px;
-         -moz-border-radius: 10px;
-         -webkit-border-radius: 10px;
-}
-         

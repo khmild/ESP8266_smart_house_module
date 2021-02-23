@@ -17,26 +17,70 @@
 		<div id="wrapper">
 		
 			<div id="form-div">
-				<p style="text-align:center"><strong>Wi-Fi Settings</strong></p>
-				<p><input type="text" id="ssid" name="ssid" class="data-input" placeHolder="Wifi Network" maxlength="20" value="" /></p>
-				<p><input type="password" id="password" name="password" class="data-input" maxlength="20" placeHolder="Password"/></p>
+				
+				<div id="headers">Wi-Fi Settings</div>
+				
+				<div>
+					<div id="lables_top">WiFi Network Name:</div>
+					<input type="text" id="ssid" name="ssid" class="data-input" placeHolder="Network name" maxlength="20" value="" />
+				</div>
+				
+				<div>
+					<div id="lables">WiFi Password:</div>
+					<input type="password" id="password" name="password" class="data-input" maxlength="20" placeHolder="Password"/>
+				</div>
+				
+				&nbsp;
+				
 				<input type="submit" value="Save Wi-Fi Settings" class="button-blue" onclick="save_wifi(this);">
+				
+			
 			</div>
 			
-			<p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+			&nbsp;
 			
 			<div id="form-div">
-				<p style="text-align:center"><strong>MQTT Settings</strong></p>
-				<p><input type="text" id="mqttUser" name="mqttUser" class="data-input" maxlength="20" placeHolder="MQTT User"/></p>
-				<p><input type="password" id="mqttPassword" name="mqttPassword" class="data-input" maxlength="20" placeHolder="MQTT Password"/></p>
-				<p><input type="text" id="ControllerIP" name="ControllerIP" class="data-input" maxlength="20" placeHolder="Controller IP"/></p>
-				<p><input type="text" name="ControllerPort" id="ControllerPort" class="data-input" maxlength="6" placeHolder="Controller Port" /></p>
-				<p><input type="text" name="ControllerSubscribe" id="ControllerSubscribe" class="data-input" placeHolder="Controller Subscribe" maxlength="64"/></p>
-				<p><input type="text" name="ControllerPublish" id="ControllerPublish" class="data-input" placeHolder="Controller Publish" maxlength="64"/></p>
-				<input type="submit" value="Save MQTT Settings" class="button-blue" onclick="save_mqtt(this);">
-			</div>
 				
-			<p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+				<div id="headers">MQTT Settings</div>
+				
+				<div>
+					<div id="lables_top">MQTT User:</div>
+					<input type="text" id="mqttUser" name="mqttUser" class="data-input" maxlength="20" placeHolder="Username"/>
+				</div>
+
+				<div>
+					<div id="lables">MQTT Password:</div>
+					<input type="password" id="mqttPassword" name="mqttPassword" class="data-input" maxlength="20" placeHolder="Password"/>
+				</div>
+
+				<div>
+					<div id="lables">Controller IP:</div>
+					<input type="text" id="ControllerIP" name="ControllerIP" class="data-input" maxlength="20" placeHolder="xxx.xxx.xxx.xxx"/>
+				</div>
+
+				<div>
+					<div id="lables">Controller Port:</div>
+					<input type="text" name="ControllerPort" id="ControllerPort" class="data-input" maxlength="6" placeHolder="Port" />
+				</div>
+				
+				<div>
+					<div id="lables">Controller Subscribe:</div>
+					<input type="text" name="ControllerSubscribe" id="ControllerSubscribe" class="data-input" placeHolder="example: myhome/firstloor/subscribe" maxlength="64"/>
+				</div>
+				
+				<div>
+					<div id="lables">Controller Publish:</div>
+					<input type="text" name="ControllerPublish" id="ControllerPublish" class="data-input" placeHolder="example: myhome/firstloor/publish" maxlength="64"/>
+				</div>
+				
+				&nbsp;
+				
+				<input type="submit" value="Save MQTT Settings" class="button-blue" onclick="save_mqtt(this);">
+				
+				
+			</div>
+			
+			&nbsp;
 			
 			<div id="form-buttons">
 				<form action="/restart">
