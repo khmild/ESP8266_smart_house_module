@@ -1,7 +1,7 @@
 #ifndef FLAG
 #define FLAG
 
-//#define DEBUG
+#define DEBUG
 
 //=================== LIBRARIES ===================//
 #include <ESP8266WiFi.h>

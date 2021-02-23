@@ -66,9 +66,9 @@ bool handleFileRead(String path) {
 
 void save_json(const configurations &conf){
 
-  SPIFFS.remove("/config.txt");
+  SPIFFS.remove("/config.json");
   
-  File file = SPIFFS.open("/config.txt", "w");
+  File file = SPIFFS.open("/config.json", "w");
   if (!file) {
     Serial.println("Config file open failed (write)");
   }
@@ -108,7 +108,7 @@ void save_json(const configurations &conf){
 
 void load_json(configurations &conf) {
   
-  File file = SPIFFS.open("/config.txt", "r");
+  File file = SPIFFS.open("/config.json", "r");
   if (!file) {
     Serial.println("Config file open failed (read)");
   }
@@ -156,7 +156,7 @@ void load_json(configurations &conf) {
 
 #ifdef DEBUG
 void printFile() {
-  File file = SPIFFS.open("/config.txt", "r");
+  File file = SPIFFS.open("/config.json", "r");
   if (!file) {
     Serial.println("Failed to read file");
     return;

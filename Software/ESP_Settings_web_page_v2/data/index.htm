@@ -3,9 +3,23 @@
    <head lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <script type="text/javascript" src="/function.js"></script>
+	  <script type="text/javascript" src="/config.json"></script>
       <title>ESP8266 AP Settings</title>
       
       <script>
+		
+		function readTextFile(file, callback) {
+			var rawFile = new XMLHttpRequest();
+			rawFile.overrideMimeType("application/json");
+			rawFile.open("GET", file, true);
+			rawFile.onreadystatechange = function() {
+				if (rawFile.readyState === 4 && rawFile.status == "200") {
+					callback(rawFile.responseText);
+				}
+			}
+			rawFile.send(null);
+		}
+	  
 	  
 		function save_wifi(submit){
 			server = "/ssid?ssid="+val('ssid')+
@@ -27,9 +41,37 @@
 			alert("Please restart for changes apply.");
 		}
        
-		function set(){
-			var ssid = document.getElementById("ssid");
-			ssid.setAttribute('value', 'HELLO'); 
+		
+		function set(){	
+			
+			readTextFile("/config.json", function(text){
+				var data = JSON.parse(text);
+				
+				var element = document.getElementById("ssid");
+				element.setAttribute('value', data.ssid);
+				
+				element = document.getElementById("password");
+				element.setAttribute('value', data.password);
+				
+				element = document.getElementById("mqttUser");
+				element.setAttribute('value', data.mqttUser);
+				
+				element = document.getElementById("mqttPassword");
+				element.setAttribute('value', data.mqttPassword);
+				
+				element = document.getElementById("ControllerIP");
+				element.setAttribute('value', data.mqttContrIP);
+				
+				element = document.getElementById("ControllerPort");
+				element.setAttribute('value', data.mqttContrPort);
+				
+				element = document.getElementById("ControllerSubscribe");
+				element.setAttribute('value', data.mqttContrSub);
+				
+				element = document.getElementById("ControllerPublish");
+				element.setAttribute('value', data.mqttContrPub);
+				
+			});
 		}
  
       </script>
