@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html>
-   <head lang="en">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <script type="text/javascript" src="/function.js"></script>
-	  <script type="text/javascript" src="/config.json"></script>
-	  <link rel="stylesheet" type="text/css" href="style.css">
-      <title>ESP8266 AP Settings</title>
-      
-   </head>
+    <head lang="en">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	   <script type="text/javascript" src="/function.js"></script>
+	   <script type="text/javascript" src="/config.json"></script>
+	   <link rel="stylesheet" type="text/css" href="style.css">
+       <title>ESP8266 AP Settings</title>
+    </head>
+ 
+ 
  <!--BODY -->
-   <body onload="set()">
-   <iframe name="hidden_frame" style="display:none"></iframe>
-   
-   <div id="wrapper">
-   
-   <div id="form-div">
-   <p style="text-align:center"><strong>Wi-Fi Settings</strong></p>
-   <p><input type="text" id="ssid" name="ssid" class="data-input" placeHolder="Wifi Network" maxlength="20" value="" /></p>
-   <p><input type="password" id="password" name="password" class="data-input" maxlength="20" placeHolder="Password"/></p>
-   <input type="submit" value="Save Wi-Fi Settings" class="button-blue" onclick="save_wifi(this);">
-   </div>
-   
-   <p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
-   
-   <div id="form-div">
-   <p style="text-align:center"><strong>MQTT Settings</strong></p>
-   <p><input type="text" id="mqttUser" name="mqttUser" class="data-input" maxlength="20" placeHolder="MQTT User"/></p>
-   <p><input type="password" id="mqttPassword" name="mqttPassword" class="data-input" maxlength="20" placeHolder="MQTT Password"/></p>
-   <p><input type="text" id="ControllerIP" name="ControllerIP" class="data-input" maxlength="20" placeHolder="Controller IP"/></p>
-   <p><input type="text" name="ControllerPort" id="ControllerPort" class="data-input" maxlength="6" placeHolder="Controller Port" /></p>
-   <p><input type="text" name="ControllerSubscribe" id="ControllerSubscribe" class="data-input" placeHolder="Controller Subscribe" maxlength="64"/></p>
-   <p><input type="text" name="ControllerPublish" id="ControllerPublish" class="data-input" placeHolder="Controller Publish" maxlength="64"/></p>
-   <input type="submit" value="Save MQTT Settings" class="button-blue" onclick="save_mqtt(this);">
-   </div>
-   
-   <p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
-   
-   <div id="form-buttons">
-   
-   <form action="/restart">
-   <input type="submit" value="Restart" class="button-blue">
-   </form>
-   </div>
-   
-   </div>
-   </body>
-   
-   
-   
+ 
+	<body onload="set()">
+		<iframe name="hidden_frame" style="display:none"></iframe>
+		
+		<div id="wrapper">
+		
+			<div id="form-div">
+				<p style="text-align:center"><strong>Wi-Fi Settings</strong></p>
+				<p><input type="text" id="ssid" name="ssid" class="data-input" placeHolder="Wifi Network" maxlength="20" value="" /></p>
+				<p><input type="password" id="password" name="password" class="data-input" maxlength="20" placeHolder="Password"/></p>
+				<input type="submit" value="Save Wi-Fi Settings" class="button-blue" onclick="save_wifi(this);">
+			</div>
+			
+			<p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+			
+			<div id="form-div">
+				<p style="text-align:center"><strong>MQTT Settings</strong></p>
+				<p><input type="text" id="mqttUser" name="mqttUser" class="data-input" maxlength="20" placeHolder="MQTT User"/></p>
+				<p><input type="password" id="mqttPassword" name="mqttPassword" class="data-input" maxlength="20" placeHolder="MQTT Password"/></p>
+				<p><input type="text" id="ControllerIP" name="ControllerIP" class="data-input" maxlength="20" placeHolder="Controller IP"/></p>
+				<p><input type="text" name="ControllerPort" id="ControllerPort" class="data-input" maxlength="6" placeHolder="Controller Port" /></p>
+				<p><input type="text" name="ControllerSubscribe" id="ControllerSubscribe" class="data-input" placeHolder="Controller Subscribe" maxlength="64"/></p>
+				<p><input type="text" name="ControllerPublish" id="ControllerPublish" class="data-input" placeHolder="Controller Publish" maxlength="64"/></p>
+				<input type="submit" value="Save MQTT Settings" class="button-blue" onclick="save_mqtt(this);">
+			</div>
+				
+			<p style="text-align:center"><span style="color:#ffffff"><span style="font-family:Georgia,serif"><strong>.</strong></span></span></p>
+			
+			<div id="form-buttons">
+				<form action="/restart">
+					<input type="submit" value="Restart" class="button-blue">
+				</form>
+			</div>
+		
+		</div>
+	</body>
+	
+	
+	
 </html>
