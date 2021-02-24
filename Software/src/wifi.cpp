@@ -1,9 +1,9 @@
-#include "ESP_Settings.h"
+#include "SmartHouse.h"
 
 void wifi_start(){
   Serial.println("******** BEGIN ***********");
 
-  #ifdef DEBUG
+  #ifdef DEBUGING
     Serial.println();
     Serial.println("Connecting to:");
     Serial.println(settings.ssid);
@@ -30,7 +30,7 @@ void wifi_start(){
   }
   Serial.println();
   Serial.println("******** CONNECTED ***********");
-  }
+}
 
 void ap_start(){
   Serial.println("******** STARTING AP ***********");
@@ -39,4 +39,4 @@ void ap_start(){
   WiFi.softAPConfig(IPAddress(192,168,4,1), IPAddress(192,168,4,1), IPAddress(255, 255, 255, 0));
   WiFi.softAP(ap_ssid, ap_password);
   Serial.println("******** AP STARTED ***********");
-  }
+}

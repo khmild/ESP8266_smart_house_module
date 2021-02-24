@@ -1,11 +1,11 @@
-
+#include "SmartHouse.h"
 
 void FS_init(void) {
   SPIFFS.begin();
   {
     Dir dir = SPIFFS.openDir("/");
     
-    #ifdef DEBUG
+    #ifdef DEBUGING
       Serial.println();
       Serial.println("Configuration file containes:");
       printFile();
@@ -17,21 +17,21 @@ void FS_init(void) {
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
       
-      #ifdef DEBUG
+      #ifdef DEBUGING
         Serial.println(fileName);
       #endif
     }
   }
   
-  HTTP.onNotFound([]() {
-    if (!handleFileRead(HTTP.uri()))
-      HTTP.send(404, "text/plain", "FileNotFound");
+  HTTP2.onNotFound([]() {
+    if (!handleFileRead(HTTP2.uri()))
+      HTTP2.send(404, "text/plain", "FileNotFound");
   });
 }
 
 
 String getContentType(String filename) {
-  if (HTTP.hasArg("download")) return "application/octet-stream";
+  if (HTTP2.hasArg("download")) return "application/octet-stream";
   else if (filename.endsWith(".htm")) return "text/html";
   else if (filename.endsWith(".html")) return "text/html";
   else if (filename.endsWith(".json")) return "application/json";
@@ -56,7 +56,7 @@ bool handleFileRead(String path) {
     if (SPIFFS.exists(pathWithGz))
       path += ".gz";
     File file = SPIFFS.open(path, "r");
-    size_t sent = HTTP.streamFile(file, contentType);
+    size_t sent = HTTP2.streamFile(file, contentType);
     file.close();
     return true;
   }
@@ -84,7 +84,7 @@ void save_json(const configurations &conf){
   doc["mqttContrSub"] = conf.mqttContrSub;
   doc["mqttContrPub"] = conf.mqttContrPub;
 
-  #ifdef DEBUG
+  #ifdef DEBUGING
     Serial.println();
     Serial.println("Saving this data to json:");
     Serial.println(settings.ssid);
@@ -137,7 +137,7 @@ void load_json(configurations &conf) {
   conf.mqttContrSub = mqttContrSub;
   conf.mqttContrPub = mqttContrPub;
 
-  #ifdef DEBUG
+  #ifdef DEBUGING
   Serial.println();
   Serial.println("Loading this data from json:");
   Serial.println(settings.ssid);
@@ -154,7 +154,7 @@ void load_json(configurations &conf) {
   file.close();
 }
 
-#ifdef DEBUG
+
 void printFile() {
   File file = SPIFFS.open("/config.json", "r");
   if (!file) {
@@ -169,4 +169,3 @@ void printFile() {
 
   file.close();
 }
-#endif
