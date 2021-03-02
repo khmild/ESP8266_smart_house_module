@@ -10,6 +10,7 @@
 #include <ESP8266SSDP.h>
 #include <FS.h>         //SPIFFS
 #include <ArduinoJson.h>
+#include <PubSubClient.h>
 
 //=================== VARIABLES ===================//
 extern unsigned char counter;
@@ -33,7 +34,7 @@ struct configurations {
 extern configurations settings;
 
 extern IPAddress apIP;
-extern ESP8266WebServer HTTP2;
+extern ESP8266WebServer HTTP;
 
 //=================== PROTOTYPES ===================//
 void wifi_start();

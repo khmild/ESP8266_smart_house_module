@@ -6,7 +6,7 @@ unsigned int send_period = 1000;
 configurations settings;
 
 IPAddress apIP(192, 168, 1, 1);
-ESP8266WebServer HTTP2(80);
+ESP8266WebServer HTTP(80);
 
 void setup() {
   
@@ -20,6 +20,9 @@ void setup() {
 }
 
 void loop() {
-  HTTP2.handleClient();
+  
+  HTTP.handleClient();
   delay(1);
+
 }
+

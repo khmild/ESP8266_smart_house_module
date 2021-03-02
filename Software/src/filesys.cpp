@@ -23,15 +23,15 @@ void FS_init(void) {
     }
   }
   
-  HTTP2.onNotFound([]() {
-    if (!handleFileRead(HTTP2.uri()))
-      HTTP2.send(404, "text/plain", "FileNotFound");
+  HTTP.onNotFound([]() {
+    if (!handleFileRead(HTTP.uri()))
+      HTTP.send(404, "text/plain", "FileNotFound");
   });
 }
 
 
 String getContentType(String filename) {
-  if (HTTP2.hasArg("download")) return "application/octet-stream";
+  if (HTTP.hasArg("download")) return "application/octet-stream";
   else if (filename.endsWith(".htm")) return "text/html";
   else if (filename.endsWith(".html")) return "text/html";
   else if (filename.endsWith(".json")) return "application/json";
@@ -56,7 +56,7 @@ bool handleFileRead(String path) {
     if (SPIFFS.exists(pathWithGz))
       path += ".gz";
     File file = SPIFFS.open(path, "r");
-    size_t sent = HTTP2.streamFile(file, contentType);
+    size_t sent = HTTP.streamFile(file, contentType);
     file.close();
     return true;
   }
