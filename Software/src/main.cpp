@@ -13,6 +13,8 @@ PubSubClient client(espClient);
 
 unsigned long time_last = 0;
 
+String received_message;
+
 void setup() {
   
   Serial.begin(9600);
@@ -34,7 +36,9 @@ void loop() {
 
   if (millis() - time_last > 5000)
   {
-    mqtt_send();
+    mqtt_send(11);
+    mqtt_send(5.55);
+    mqtt_send("999");
     time_last = millis();
   }
 

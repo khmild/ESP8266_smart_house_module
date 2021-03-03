@@ -39,6 +39,8 @@ extern ESP8266WebServer HTTP;
 //=================== MQTT SETTINGS ===================//
 extern WiFiClient espClient;
 extern PubSubClient client;
+#define MQTT_MSG_SIZE 50
+extern String received_message;
 
 //=================== PROTOTYPES ===================//
 void wifi_start();
@@ -55,7 +57,9 @@ void read_wifi_values();
 void read_mqtt_values();
 void mqtt_setup();
 void callback(const char* topic, byte* payload, unsigned int length);
-void mqtt_send();
+void mqtt_send(int value);
+void mqtt_send(double value);
+void mqtt_send(const char* value);
 void mqtt_connect();
 
 

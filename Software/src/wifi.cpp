@@ -98,23 +98,63 @@ void mqtt_connect(){
 
 void callback(const char* topic, byte* payload, unsigned int length){
   
-  
+  received_message = "";
+
+  for (unsigned int i = 0; i < length; i++) {
+    received_message += (char)payload[i];
+  }
+
   #ifdef DEBUGING
     Serial.print("Recieved message from [");
     Serial.print(topic);
     Serial.println("]");
     Serial.print("Message: ");
-    //Serial.println();
-    for (int i = 0; i < length; i++) {
-      Serial.print((char)payload[i]);
-    }
-  Serial.println();
+    Serial.println(received_message);
   #endif
-
 
 }
 
-void mqtt_send(){
+void mqtt_send(int value){
+  if (!client.connected()) {
+    mqtt_connect();
+  }
+
+  char send_buf[MQTT_MSG_SIZE];
+  snprintf(send_buf, MQTT_MSG_SIZE, "%d", value);
+
+  unsigned int len = settings.mqttContrPub.length() + 1;
+  char pub_buf[len];
+  settings.mqttContrPub.toCharArray(pub_buf, len);
+  
+  #ifdef DEBUGING
+    Serial.print("Publishing value:");
+    Serial.println(send_buf);
+  #endif
+
+  client.publish(pub_buf, send_buf);
+}
+
+void mqtt_send(double value){
+  if (!client.connected()) {
+    mqtt_connect();
+  }
+
+  char send_buf[MQTT_MSG_SIZE];
+  snprintf(send_buf, MQTT_MSG_SIZE, "%f", value);
+
+  unsigned int len = settings.mqttContrPub.length() + 1;
+  char pub_buf[len];
+  settings.mqttContrPub.toCharArray(pub_buf, len);
+  
+  #ifdef DEBUGING
+    Serial.print("Publishing value:");
+    Serial.println(send_buf);
+  #endif
+
+  client.publish(pub_buf, send_buf);
+}
+
+void mqtt_send(const char* value){
   if (!client.connected()) {
     mqtt_connect();
   }
@@ -124,8 +164,9 @@ void mqtt_send(){
   settings.mqttContrPub.toCharArray(pub_buf, len);
   
   #ifdef DEBUGING
-    Serial.println("Publishing value:");
+    Serial.print("Publishing value:");
+    Serial.println(value);
   #endif
 
-  client.publish(pub_buf,"99");
+  client.publish(pub_buf, value);
 }
