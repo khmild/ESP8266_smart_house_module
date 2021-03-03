@@ -1,5 +1,11 @@
 #include "SmartHouse.h"
 
+
+/** 
+ * WFI_START FUNCTION
+ * This function is used for connecting to WiFi network
+ * Uses parameters stored in settings.ssid and settings.password variables
+ */
 void wifi_start(){
   Serial.println("******** BEGIN ***********");
 
@@ -32,6 +38,11 @@ void wifi_start(){
   Serial.println("******** CONNECTED ***********");
 }
 
+/**
+ * AP_START FUNCTION
+ * Function used for creation WiFi AP when can't connect to the WiFi network
+ * Creates WiFi acces point with parameters specified in ap_ssid and ap_password variables
+ */
 void ap_start(){
   Serial.println("******** STARTING AP ***********");
   WiFi.disconnect();
@@ -41,10 +52,16 @@ void ap_start(){
   Serial.println("******** AP STARTED ***********");
 }
 
+/**
+ * MQTT_SETUP FUNCTION
+ * Sets MQTT connection parameters
+ * Converts IP String to IPAdress format
+ */
 void mqtt_setup(){
   uint8_t Parts_ip[4] = {0,0,0,0};
   uint8_t Part = 0;
 
+  //convertion string to IPAdress format
   for (unsigned int i=0; i < settings.mqttContrIP.length(); i++ )
   {
   	char c = settings.mqttContrIP[i];
@@ -59,6 +76,7 @@ void mqtt_setup(){
 
   IPAddress ip( Parts_ip[0], Parts_ip[1], Parts_ip[2], Parts_ip[3] );
   
+  //set server parameters and callback function
   client.setServer(ip, settings.mqttContrPort.toInt());
   client.setCallback(callback);
   
@@ -71,21 +89,41 @@ void mqtt_setup(){
   #endif
 }
 
+/**
+ * MQTT_CONNECT FUNCTION
+ * Connects to MQTT broker using parameters stored in settings.mqtt****
+ * converts all the String parameters to the char arrays at the begining
+ */
 void mqtt_connect(){
+  //convert subscribe string
   unsigned int len = settings.mqttContrSub.length() + 1;
   char sub_buf[len];
   settings.mqttContrSub.toCharArray(sub_buf, len);
+
+  //convert MQTT User string
+  len = settings.mqttUser.length() + 1;
+  char user[len];
+  settings.mqttUser.toCharArray(user, len);
+
+  //convert MQTT Password string
+  len = settings.mqttPassword.length() + 1;
+  char pass[len];
+  settings.mqttPassword.toCharArray(pass, len);
 
   #ifdef DEBUGING
     Serial.println("MQTT connection...");
     Serial.print("Subscribing to: ");
     Serial.println(sub_buf);
+    Serial.print("MQTT User: ");
+    Serial.println(user);
+    Serial.println("MQTT Password: ");
+    Serial.println(pass);
   #endif
 
   String clientId = "Client-";
   clientId += String(random(0xffff), HEX);
   
-  if (client.connect(clientId.c_str())) {
+  if (client.connect(clientId.c_str(),user, pass)) {
     Serial.println("MQTT Connected");
     client.subscribe(sub_buf);
   } 
@@ -96,6 +134,12 @@ void mqtt_connect(){
 
 }
 
+/**
+ * CALLBACK FUNCTION
+ * !!! DO NOT CHANGE HEADER !!!
+ * this function is called when new message in subscribe topic appears
+ * stores message in recieved_message variable
+ */
 void callback(const char* topic, byte* payload, unsigned int length){
   
   received_message = "";
@@ -114,6 +158,10 @@ void callback(const char* topic, byte* payload, unsigned int length){
 
 }
 
+/**
+ * MQTT_SEND FUNCTION (INT TYPE)
+ * publishes int value into specified topic
+ */
 void mqtt_send(int value){
   if (!client.connected()) {
     mqtt_connect();
@@ -134,6 +182,10 @@ void mqtt_send(int value){
   client.publish(pub_buf, send_buf);
 }
 
+/**
+ * MQTT_SEND FUNCTION (DOUBLE TYPE)
+ * publishes double value into specified topic
+ */
 void mqtt_send(double value){
   if (!client.connected()) {
     mqtt_connect();
@@ -154,6 +206,10 @@ void mqtt_send(double value){
   client.publish(pub_buf, send_buf);
 }
 
+/**
+ * MQTT_SEND FUNCTION (CHAR TYPE)
+ * publishes char value into specified topic
+ */
 void mqtt_send(const char* value){
   if (!client.connected()) {
     mqtt_connect();

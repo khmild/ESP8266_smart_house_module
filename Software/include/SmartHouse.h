@@ -1,6 +1,7 @@
 #ifndef FLAG
 #define FLAG
 
+/** Use DEBUGING flag for showing detailed info in serial port */
 #define DEBUGING
 
 //=================== LIBRARIES ===================//
@@ -14,12 +15,13 @@
 
 //=================== VARIABLES ===================//
 extern unsigned char counter;
+extern unsigned int send_period;
 
+/** Default values for ESP8266 AP connection */
 const char ap_ssid[] = "ESP_AP";
 const char ap_password[] = "12345678";
 
-extern unsigned int send_period;
-
+/** Structure for MQTT and WiFi connection storage*/
 struct configurations {
   String ssid;
   String password;
@@ -37,9 +39,10 @@ extern IPAddress apIP;
 extern ESP8266WebServer HTTP;
 
 //=================== MQTT SETTINGS ===================//
+/** Use MQTT_MSG_SIZE parameter for adjusting maximum MQTT message size */
+#define MQTT_MSG_SIZE 50
 extern WiFiClient espClient;
 extern PubSubClient client;
-#define MQTT_MSG_SIZE 50
 extern String received_message;
 
 //=================== PROTOTYPES ===================//

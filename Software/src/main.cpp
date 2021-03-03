@@ -1,3 +1,9 @@
+/**
+* Use mqtt_send() to send data to mqtt broker
+* Recieved data are stored in a recieved_message variable
+* functions.cpp file is created for user functions
+*/
+
 #include "SmartHouse.h"
 
 unsigned char counter = 0;
@@ -34,12 +40,10 @@ void loop() {
 
   client.loop();
 
-  if (millis() - time_last > 5000)
-  {
-    mqtt_send(11);
-    mqtt_send(5.55);
-    mqtt_send("999");
-    time_last = millis();
-  }
+  /*
+  YOUR
+      CODE
+          HERE
+  */
 
 }
