@@ -36,6 +36,10 @@ extern configurations settings;
 extern IPAddress apIP;
 extern ESP8266WebServer HTTP;
 
+//=================== MQTT SETTINGS ===================//
+extern WiFiClient espClient;
+extern PubSubClient client;
+
 //=================== PROTOTYPES ===================//
 void wifi_start();
 void ap_start();
@@ -49,6 +53,10 @@ void HTTP_init(void);
 void handle_Restart();
 void read_wifi_values();
 void read_mqtt_values();
+void mqtt_setup();
+void callback(const char* topic, byte* payload, unsigned int length);
+void mqtt_send();
+void mqtt_connect();
 
 
 #endif
