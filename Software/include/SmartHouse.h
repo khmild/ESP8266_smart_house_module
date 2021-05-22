@@ -13,6 +13,10 @@
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
 
+#include <Wire.h>             
+#include <AHT10.h>
+
+#include "SH1106.h"
 //=================== VARIABLES ===================//
 extern unsigned char counter;
 extern unsigned int send_period;
@@ -37,6 +41,21 @@ extern configurations settings;
 
 extern IPAddress apIP;
 extern ESP8266WebServer HTTP;
+
+//=================== USER VARIABLES ===================//
+/** Temperature/Humidity sensor AHT10 */
+extern AHT10 AHT10_sens;
+extern float AHT10_temp;
+extern float AHT10_humid;
+
+void AHT10_setup();
+void AHT10_read();
+
+/** OLED display */
+extern SH1106 display;
+void display_setup();
+void display_values();
+
 
 //=================== MQTT SETTINGS ===================//
 /** Use MQTT_MSG_SIZE parameter for adjusting maximum MQTT message size */

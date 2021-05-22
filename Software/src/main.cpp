@@ -17,9 +17,15 @@ ESP8266WebServer HTTP(80);
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-unsigned long time_last = 0;
-
 String received_message;
+
+AHT10 AHT10_sens(AHT10_ADDRESS_0X38);
+float AHT10_temp = 0;
+float AHT10_humid = 0;
+
+SH1106 display(0x3c, SDA, SCL);
+
+unsigned long old_time = 0;
 
 void setup() {
   
@@ -30,6 +36,8 @@ void setup() {
   mqtt_setup();
   wifi_start();
   HTTP_init();
+  AHT10_setup();
+  display_setup();
 
 }
 
@@ -40,10 +48,15 @@ void loop() {
 
   client.loop();
 
-  /*
-  YOUR
-      CODE
-          HERE
-  */
-
+  if (millis() - old_time > 2000)
+  {
+    AHT10_read();
+    display_values();
+    old_time = millis();
+    Serial.print("Temperature: ");
+    Serial.println(AHT10_temp);
+    Serial.print("Humidity: ");
+    Serial.println(AHT10_humid);
+  }
+  
 }
