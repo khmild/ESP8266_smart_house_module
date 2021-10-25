@@ -23,7 +23,7 @@ AHT10 AHT10_sens(AHT10_ADDRESS_0X38);
 float AHT10_temp = 0;
 float AHT10_humid = 0;
 
-SH1106 display(0x3c, SDA, SCL);
+SH1106 display(0x3C,D1,D2);
 
 unsigned long old_time = 0;
 
@@ -38,7 +38,7 @@ void setup() {
   HTTP_init();
   AHT10_setup();
   display_setup();
-
+  mqtt_connect();
 }
 
 void loop() {
@@ -53,10 +53,15 @@ void loop() {
     AHT10_read();
     display_values();
     old_time = millis();
-    Serial.print("Temperature: ");
+    delay(50);
+
+    Serial.print("\nTemperature: ");
     Serial.println(AHT10_temp);
+    mqtt_send(AHT10_temp, "/temperature");
+    
     Serial.print("Humidity: ");
     Serial.println(AHT10_humid);
+    mqtt_send(AHT10_humid, "/humidity");
   }
   
 }

@@ -16,7 +16,7 @@
 #include <Wire.h>             
 #include <AHT10.h>
 
-#include "SH1106.h"
+#include<SH1106.h>
 //=================== VARIABLES ===================//
 extern unsigned char counter;
 extern unsigned int send_period;
@@ -77,11 +77,13 @@ void HTTP_init(void);
 void handle_Restart();
 void read_wifi_values();
 void read_mqtt_values();
+
 void mqtt_setup();
 void callback(const char* topic, byte* payload, unsigned int length);
 void mqtt_send(int value);
 void mqtt_send(double value);
 void mqtt_send(const char* value);
+void mqtt_send(float value, String subtopic);
 void mqtt_connect();
 
 

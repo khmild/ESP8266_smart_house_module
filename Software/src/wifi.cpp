@@ -226,3 +226,30 @@ void mqtt_send(const char* value){
 
   client.publish(pub_buf, value);
 }
+
+/**
+ * MQTT_SEND FUNCTION (CHAR TYPE)
+ * publishes float value into topic from web + specified subtopic
+ * useful for more values communication
+ */
+void mqtt_send(float value, String subtopic){
+  if (!client.connected()) {
+    mqtt_connect();
+  }
+
+  /*convert value to string*/
+  char send_buf[MQTT_MSG_SIZE];
+  snprintf(send_buf, MQTT_MSG_SIZE, "%.1f", value);
+
+  String topic = settings.mqttContrPub + subtopic;
+  unsigned int len = topic.length() + 1;
+  char pub_buf[len];
+  topic.toCharArray(pub_buf, len);
+  
+  #ifdef DEBUGING
+    Serial.print("Publishing value:");
+    Serial.println(send_buf);
+  #endif
+
+  client.publish(pub_buf, send_buf);
+}

@@ -1,6 +1,5 @@
 #include "SmartHouse.h"
 
-
 void AHT10_setup(){
     while (AHT10_sens.begin(SDA, SCL) != true)
     {
@@ -18,6 +17,7 @@ void AHT10_read(){
 
 void display_setup(){
     display.init();
+    display.clear();
     display.flipScreenVertically();
     display.setFont(ArialMT_Plain_10);
 }
